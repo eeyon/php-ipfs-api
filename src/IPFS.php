@@ -107,20 +107,19 @@ class IPFS {
 		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+		curl_setopt($ch, CURLOPT_POST, 1);
 		 
 		if ($data != "") {
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: multipart/form-data; boundary=a831rwxi1a3gzaorw1w2z49dlsor')); 
-			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, "--a831rwxi1a3gzaorw1w2z49dlsor\r\nContent-Type: application/octet-stream\r\nContent-Disposition: file; \r\n\r\n" . $data . "\r\n--a831rwxi1a3gzaorw1w2z49dlsor");
 		}
 
 		$output = curl_exec($ch);
 
 		if ($output == FALSE) {
-			//todo: when ipfs doesn't answer
+			return "there was an error communicating with the IPFS network.";
 		}		 
 		curl_close($ch);
- 
 
 		return $output;
 	}
